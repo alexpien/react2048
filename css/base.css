@@ -1,0 +1,20 @@
+.gridRow li {
+	display: inline;
+}
+
+ul {
+	list-style-type: none;
+}
+
+
+
+.cell {
+	text-align: center;
+	line-height:0px;
+	padding-top:50px;
+	width: 100px;
+	height: 100px;
+	font-size:44px;
+	display:inline-block;
+	-moz-box-sizing: padding-box;
+}
