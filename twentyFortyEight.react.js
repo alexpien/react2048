@@ -7,6 +7,7 @@ var TwentyFortyEightApp = React.createClass({
 				[0, 0, 0, 2],
 				[2, 0, 0, 0]
 			],
+			gg: false,
 		}
 	},
 
@@ -70,16 +71,30 @@ var TwentyFortyEightApp = React.createClass({
 				}
 			}
 		}
+
+		var gg=true;
+
 		if (emptySpaces.length > 0 ) {
 			var addHere = emptySpaces[Math.floor(Math.random()*emptySpaces.length)];
 			newGameState[addHere[0]][addHere[1]] = 2;
-		} else {
-			this.setState({
-				gg: true,
-			});
+		}
+
+		for (var i = 0; i < newGameState.length; i++) {
+			for (var j = 0; j < newGameState[0].length; j++) {
+				if (newGameState[i][j] === 0) {
+					gg = false;
+				}
+				if ((i > 0) && (newGameState[i][j] === newGameState[i-1][j])) {
+					gg = false;
+				}
+				if ((j > 0) && (newGameState[i][j] === newGameState[i][j-1])) {
+					gg = false;
+				}
+			}
 		}
 
 		this.setState({
+			gg: gg,
 			gameState: newGameState,
 		});
 	},
@@ -99,6 +114,7 @@ var TwentyFortyEightApp = React.createClass({
 		});
 		return (
 			<div>
+				{this.state.gg ? 'game over' : null} 
 				<ul>
 					{gridRows}
 				</ul>
@@ -132,6 +148,5 @@ Array.prototype.squash = function() {
 		}
 	}
 
-	
-	return this;
+	return this;	
 }
