@@ -1,5 +1,4 @@
-/** @jsx React.DOM */
-var TwentyFortyEightApp = React.createClass({
+var TwentyFortyEightApp = React.createClass({displayName: "TwentyFortyEightApp",
 	getInitialState: function() {
 		return {
 			gameState: [
@@ -13,7 +12,6 @@ var TwentyFortyEightApp = React.createClass({
 	},
 
 	componentDidMount: function() {
-
 	  window.addEventListener("keydown", this.keyPress);
 	},
 	componentWillUnmount: function() {
@@ -69,6 +67,7 @@ var TwentyFortyEightApp = React.createClass({
 		var emptySpaces = [];
 
 		if (this.state.gameState.toString() !== newGameState.toString()) {
+			console.log("what");
 			for (var i = 0; i < newGameState.length; i++) {
 				for (var j = 0; j < newGameState[0].length; j++) {
 					if (newGameState[i][j] === 0) {
@@ -111,26 +110,26 @@ var TwentyFortyEightApp = React.createClass({
 			var gridCells = [];
 			row.forEach(function(cell) {
 				gridCells.push(
-					<div className="cell">{cell}</div>
+					React.createElement("div", {className: "cell"}, cell)
 				);
 			});
 			gridRows.push(
-				<li>{gridCells}</li>
+				React.createElement("li", null, gridCells)
 			);
 		});
 		return (
-			<div>
-				{this.state.gg ? 'game over' : null} 
-				<ul>
-					{gridRows}
-				</ul>
-			</div>
+			React.createElement("div", null, 
+				this.state.gg ? 'game over' : null, 
+				React.createElement("ul", null, 
+					gridRows
+				)
+			)
 		);
 	}
 });
 
 React.render(
-	<TwentyFortyEightApp />,
+	React.createElement(TwentyFortyEightApp, null),
 	document.getElementById('container')
 );
 

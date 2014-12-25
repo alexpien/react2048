@@ -1,6 +1,5 @@
-/** @jsx React.DOM */
 var TwentyFortyEightApp = React.createClass({
-	getInitialState: function() {
+	getInitialState() {
 		return {
 			gameState: [
 				[0, 0, 0, 0],
@@ -12,44 +11,55 @@ var TwentyFortyEightApp = React.createClass({
 		}
 	},
 
-	componentDidMount: function() {
+	reset() {
+		this.replaceState(this.getInitialState());
+	},
 
+	componentDidMount() {
 	  window.addEventListener("keydown", this.keyPress);
 	},
-	componentWillUnmount: function() {
+	componentWillUnmount() {
 	  window.removeEventListener("keydown", this.keyPress);
 	},
 
-	keyPress: function(e) {
+	keyPress(e) {
+
+		// fucking javascript can't deep copy shit fuck.
+		var oldGameState = [
+			this.state.gameState[0].slice(0), 
+			this.state.gameState[1].slice(0), 
+			this.state.gameState[2].slice(0),
+			this.state.gameState[3].slice(0)
+		];
+
 		var newGameState = [];
-		var spawnRandom = true;
-		if (e.key === 'Right') {
-			this.state.gameState.forEach( function(row, index){
+		if (e.keyCode === 39) {
+			oldGameState.forEach( function(row, index){
 				newGameState[index] = row.squash();
 			}.bind(this));
 		}
-		else if (e.key === 'Left') {
-			this.state.gameState.forEach( function(row, index){
+		else if (e.keyCode === 37) {
+			oldGameState.forEach( function(row, index){
 				newGameState[index] = row.reverse().squash().reverse();
 			}.bind(this));
 		}
-		else if (e.key === 'Up' || e.key === 'Down') {
+		else if (e.keyCode === 38 || e.keyCode === 40) {
 			var rotatedGameState = [];
-			for (var i = 0; i < this.state.gameState[0].length; i++) {
-				for (var j = 0; j < this.state.gameState.length; j++) {
+			for (var i = 0; i < oldGameState[0].length; i++) {
+				for (var j = 0; j < oldGameState.length; j++) {
 					if (!rotatedGameState[i]) {
 						rotatedGameState[i] = [];
 					}
-					rotatedGameState[i][j] = this.state.gameState[j][i];
+					rotatedGameState[i][j] = oldGameState[j][i];
 				}
 			}
 			var newRotatedGameState = [];
-			if (e.key === 'Down') {
+			if (e.keyCode === 40) {
 				rotatedGameState.forEach( function(row, index){
 					newRotatedGameState[index] = row.squash();
 				}.bind(this));
 			}
-			if (e.key === 'Up') {
+			if (e.keyCode === 38) {
 				rotatedGameState.forEach( function(row, index){
 					newRotatedGameState[index] = row.reverse().squash().reverse();
 				}.bind(this));
@@ -67,7 +77,6 @@ var TwentyFortyEightApp = React.createClass({
 		}
 
 		var emptySpaces = [];
-
 		if (this.state.gameState.toString() !== newGameState.toString()) {
 			for (var i = 0; i < newGameState.length; i++) {
 				for (var j = 0; j < newGameState[0].length; j++) {
@@ -105,13 +114,17 @@ var TwentyFortyEightApp = React.createClass({
 		});
 	},
 
-	render: function() {
+	render() {
 		var gridRows=[]
 		this.state.gameState.forEach(function(row) {
 			var gridCells = [];
 			row.forEach(function(cell) {
+				var classes="cell";
+				if (cell === 0) {
+					classes = classes + " white";
+				}
 				gridCells.push(
-					<div className="cell">{cell}</div>
+					<div className={classes}>{cell ? cell : "_"}</div>
 				);
 			});
 			gridRows.push(
@@ -120,6 +133,7 @@ var TwentyFortyEightApp = React.createClass({
 		});
 		return (
 			<div>
+				<button onClick={this.reset}> new game </button>
 				{this.state.gg ? 'game over' : null} 
 				<ul>
 					{gridRows}
@@ -153,6 +167,5 @@ Array.prototype.squash = function() {
 			this[i-1] = 0;
 		}
 	}
-
 	return this;	
 }

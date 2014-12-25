@@ -1,5 +1,4 @@
-/** @jsx React.DOM */
-var TwentyFortyEightApp = React.createClass({
+var TwentyFortyEightApp = React.createClass({displayName: "TwentyFortyEightApp",
 	getInitialState: function() {
 		return {
 			gameState: [
@@ -13,7 +12,7 @@ var TwentyFortyEightApp = React.createClass({
 	},
 
 	componentDidMount: function() {
-
+		console.log("hey");
 	  window.addEventListener("keydown", this.keyPress);
 	},
 	componentWillUnmount: function() {
@@ -21,19 +20,20 @@ var TwentyFortyEightApp = React.createClass({
 	},
 
 	keyPress: function(e) {
+		console.log(e);
 		var newGameState = [];
 		var spawnRandom = true;
-		if (e.key === 'Right') {
+		if (e.keyCode === 39) {
 			this.state.gameState.forEach( function(row, index){
 				newGameState[index] = row.squash();
 			}.bind(this));
 		}
-		else if (e.key === 'Left') {
+		else if (e.keyCode === 37) {
 			this.state.gameState.forEach( function(row, index){
 				newGameState[index] = row.reverse().squash().reverse();
 			}.bind(this));
 		}
-		else if (e.key === 'Up' || e.key === 'Down') {
+		else if (e.keyCode === 38 || e.keyCode === 40) {
 			var rotatedGameState = [];
 			for (var i = 0; i < this.state.gameState[0].length; i++) {
 				for (var j = 0; j < this.state.gameState.length; j++) {
@@ -44,12 +44,12 @@ var TwentyFortyEightApp = React.createClass({
 				}
 			}
 			var newRotatedGameState = [];
-			if (e.key === 'Down') {
+			if (e.keyCode === 40) {
 				rotatedGameState.forEach( function(row, index){
 					newRotatedGameState[index] = row.squash();
 				}.bind(this));
 			}
-			if (e.key === 'Up') {
+			if (e.keyCode === 38) {
 				rotatedGameState.forEach( function(row, index){
 					newRotatedGameState[index] = row.reverse().squash().reverse();
 				}.bind(this));
@@ -111,26 +111,26 @@ var TwentyFortyEightApp = React.createClass({
 			var gridCells = [];
 			row.forEach(function(cell) {
 				gridCells.push(
-					<div className="cell">{cell}</div>
+					React.createElement("div", {className: "cell"}, cell)
 				);
 			});
 			gridRows.push(
-				<li>{gridCells}</li>
+				React.createElement("li", null, gridCells)
 			);
 		});
 		return (
-			<div>
-				{this.state.gg ? 'game over' : null} 
-				<ul>
-					{gridRows}
-				</ul>
-			</div>
+			React.createElement("div", null, 
+				this.state.gg ? 'game over' : null, 
+				React.createElement("ul", null, 
+					gridRows
+				)
+			)
 		);
 	}
 });
 
 React.render(
-	<TwentyFortyEightApp />,
+	React.createElement(TwentyFortyEightApp, null),
 	document.getElementById('container')
 );
 
