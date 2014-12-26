@@ -1,5 +1,5 @@
 var TwentyFortyEightApp = React.createClass({displayName: "TwentyFortyEightApp",
-	getInitialState:function() {
+	getInitialState() {
 		return {
 			gameState: [
 				[0, 0, 0, 0],
@@ -11,26 +11,23 @@ var TwentyFortyEightApp = React.createClass({displayName: "TwentyFortyEightApp",
 		}
 	},
 
-	reset:function() {
+	reset() {
 		this.replaceState(this.getInitialState());
 	},
 
-	componentDidMount:function() {
+	componentDidMount() {
 	  window.addEventListener("keydown", this.keyPress);
 	},
-	componentWillUnmount:function() {
+	componentWillUnmount() {
 	  window.removeEventListener("keydown", this.keyPress);
 	},
 
-	keyPress:function(e) {
+	keyPress(e) {
+		var oldGameState = [];
 
-		// fucking javascript can't deep copy shit fuck.
-		var oldGameState = [
-			this.state.gameState[0].slice(0), 
-			this.state.gameState[1].slice(0), 
-			this.state.gameState[2].slice(0),
-			this.state.gameState[3].slice(0)
-		];
+		this.state.gameState.forEach(function(row, index) {
+			oldGameState[index] = row.slice(0);
+		}); 
 
 		var newGameState = [];
 		if (e.keyCode === 39) {
@@ -114,7 +111,7 @@ var TwentyFortyEightApp = React.createClass({displayName: "TwentyFortyEightApp",
 		});
 	},
 
-	render:function() {
+	render() {
 		var gridRows=[]
 		this.state.gameState.forEach(function(row) {
 			var gridCells = [];
