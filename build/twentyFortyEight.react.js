@@ -1,5 +1,5 @@
 var TwentyFortyEightApp = React.createClass({displayName: "TwentyFortyEightApp",
-	getInitialState() {
+	getInitialState:function() {
 		return {
 			gameState: [
 				[0, 0, 0, 0],
@@ -11,18 +11,18 @@ var TwentyFortyEightApp = React.createClass({displayName: "TwentyFortyEightApp",
 		}
 	},
 
-	reset() {
+	reset:function() {
 		this.replaceState(this.getInitialState());
 	},
 
-	componentDidMount() {
+	componentDidMount:function() {
 	  window.addEventListener("keydown", this.keyPress);
 	},
-	componentWillUnmount() {
+	componentWillUnmount:function() {
 	  window.removeEventListener("keydown", this.keyPress);
 	},
 
-	keyPress(e) {
+	keyPress:function(e) {
 		var oldGameState = [];
 
 		this.state.gameState.forEach(function(row, index) {
@@ -111,7 +111,7 @@ var TwentyFortyEightApp = React.createClass({displayName: "TwentyFortyEightApp",
 		});
 	},
 
-	render() {
+	render:function() {
 		var gridRows=[]
 		this.state.gameState.forEach(function(row) {
 			var gridCells = [];
