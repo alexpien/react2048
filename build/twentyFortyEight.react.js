@@ -87,8 +87,8 @@ var TwentyFortyEightApp = React.createClass({displayName: "TwentyFortyEightApp",
 		var gg=true;
 
 		if (emptySpaces.length > 0 ) {
-			var addHere = emptySpaces[Math.floor(Math.random()*emptySpaces.length)];
-			newGameState[addHere[0]][addHere[1]] = 2;
+			var addHere = emptySpaces[Math.floor(Math.random() * emptySpaces.length)];
+			newGameState[addHere[0]][addHere[1]] = Math.random() < .9 ? 2 : 4;
 		}
 
 		for (var i = 0; i < newGameState.length; i++) {
