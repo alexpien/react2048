@@ -2,10 +2,10 @@ var TwentyFortyEightApp = React.createClass({displayName: "TwentyFortyEightApp",
 	getInitialState:function() {
 		return {
 			gameState: [
-				[0, 0, 0, 0],
-				[0, 0, 0, 0],
-				[0, 0, 0, 2],
-				[2, 0, 0, 0]
+				[0, 4, 0, 0],
+				[0, 4, 0, 0],
+				[0, 8, 0, 2],
+				[2, 32, 0, 0]
 			],
 			gg: false,
 		}
@@ -158,11 +158,18 @@ Array.prototype.squash = function() {
 			this[i-1] = 0;
 		}	
 	}
+
+	for (var i = 1; i < this.length; i++) {
+		if (this[i] === 0) {
+			this.splice(i, 1);
+			this.unshift(0);
+		}
+	}
 	for (var i = 1; i < this.length; i++) {
 		if (this[i] === 0) {
 			this[i] = this[i-1];
 			this[i-1] = 0;
 		}
 	}
-	return this;	
+	return this;
 }
