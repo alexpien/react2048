@@ -2,10 +2,10 @@ var TwentyFortyEightApp = React.createClass({displayName: "TwentyFortyEightApp",
 	getInitialState:function() {
 		return {
 			gameState: [
-				[0, 4, 0, 0],
-				[0, 4, 0, 0],
-				[0, 8, 0, 2],
-				[2, 32, 0, 0]
+				[0, 0, 0, 0],
+				[0, 0, 0, 0],
+				[0, 0, 0, 2],
+				[2, 0, 0, 0]
 			],
 			gg: false,
 		}
